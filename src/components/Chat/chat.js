@@ -19,7 +19,6 @@ const Chat = ({ location }) => {
   const ENDPOINT = "localhost:5000";
 
   useEffect(() => {
-    console.log("Use Effect 1...");
     const { name, room } = queryString.parse(location.search);
     socket = io(ENDPOINT);
     setName(name);
@@ -36,15 +35,13 @@ const Chat = ({ location }) => {
   }, [ENDPOINT, location.search]);
 
   useEffect(() => {
-    console.log("Use Effect 2...");
     socket.on("message", message => {
-      setMessages([...messages, message]);
+      setMessages(msgs => [...msgs, message]);
     });
     socket.on("roomData", ({ users }) => {
-      console.log("RoomData: ", { users });
       setUsers(users);
     });
-  }, [messages]);
+  }, []);
 
   const sendMessage = e => {
     e.preventDefault();
